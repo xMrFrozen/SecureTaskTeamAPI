@@ -3,8 +3,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SecureTaskTeamApi.Data;
 using SecureTaskTeamApi.Models;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Reflection.Metadata.Ecma335;
+using System.Security.Claims;
+using System.Text;
 using static SecureTaskTeamApi.Models.LoginRequest;
 
 namespace SecureTaskTeamApi.Controllers
@@ -14,10 +20,6 @@ namespace SecureTaskTeamApi.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AppDBContext _dbcontext;
-        public AuthController(AppDBContext dbcontext)
-        {
-            _dbcontext = dbcontext;
-        }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(User user)
@@ -45,7 +47,41 @@ namespace SecureTaskTeamApi.Controllers
 
             if(!isPasswordValid) return BadRequest("Invalid username or password.");
 
-            return Ok("Login successful! Welcome " + user.Username + "!");
+            var token = GenerateJwtToken(user);
+
+            return Ok(new {
+                Message = "Login successful! Welcome " + user.Username + "!",
+                Token = token
+            });
+        }
+
+        private readonly IConfiguration _config;
+
+        public AuthController(IConfiguration config, AppDBContext dbcontext)
+        {
+            _config = config;
+            _dbcontext = dbcontext;
+        }
+
+        private string GenerateJwtToken(User user)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[] {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username)
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddHours(3),
+                signingCredentials: credentials
+                );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

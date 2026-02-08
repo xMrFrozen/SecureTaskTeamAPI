@@ -11,6 +11,6 @@
 
         // TASK OWNER
         public int UserID { get; set; }
-        public User User { get; set; } = null!;
+        public User? User { get; set; }
     }
 }
