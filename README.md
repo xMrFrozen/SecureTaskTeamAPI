@@ -14,28 +14,28 @@ This project is under active development and is being continuously improved.
 - Security: BCrypt.Net (password hashing)
 
 ## Features
-- User registration
+- User registration and user login
 
-- User login
+- Bcrypt Hashing: Secure password storage.
 
-- Password hashing with bcrypt
+- SQLite & EF Core: Local database and ORM integration.
 
-- SQLite database
+- JWT Auth: Token-based security.
 
-- JWT Authentication
+- Task CRUD: Full task management.
 
-- Task Management (Full CRUD)
+- Ownership Logic: User-specific data isolation.
 
-- Data Ownership & Security
+- Smart Update: Partial data preservation on PUT.
 
 ## Planned features
-- Task Deadlines & Reminders
+- Task deadlines: Due dates and notifications.
 
-- Category & Tagging System
+- Categories: Task organization and labels.
 
-- Role-based authorization
+- RBAC: Advanced role permissions.
 
-- Team and task management
+- Team System: Multi-user collaboration.
 
 ## Getting Started
 1. Clone the repository:
