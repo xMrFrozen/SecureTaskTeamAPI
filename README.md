@@ -22,10 +22,16 @@ This project is under active development and is being continuously improved.
 
 - SQLite database
 
-- Initial user task structure (in progress)
+- JWT Authentication
+
+- Task Management (Full CRUD)
+
+- Data Ownership & Security
 
 ## Planned features
-- JWT-based authentication
+- Task Deadlines & Reminders
+
+- Category & Tagging System
 
 - Role-based authorization
 
