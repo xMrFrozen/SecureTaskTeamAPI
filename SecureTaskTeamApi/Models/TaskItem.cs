@@ -8,6 +8,9 @@
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public bool IsCompleted { get; set; } = false;
+        public DateTime? deadLine { get; set; }
+        public string Category { get; set; } = "General";
+        public string Tag { get; set; }
 
         // TASK OWNER
         public int UserID { get; set; }

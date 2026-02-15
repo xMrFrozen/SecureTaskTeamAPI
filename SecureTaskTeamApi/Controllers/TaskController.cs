@@ -4,17 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SecureTaskTeamApi.Data;
 using SecureTaskTeamApi.Models;
+using SecureTaskTeamApi.Controllers;
 using Microsoft.EntityFrameworkCore;
 
 namespace SecureTaskTeamApi.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class TaskController : ControllerBase
     {
         private readonly AppDBContext _context;
-
         public TaskController(AppDBContext context)
         {
             _context = context;
@@ -23,6 +23,7 @@ namespace SecureTaskTeamApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TaskItem>>> GetTasks()
         {
+
             var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
             if (userIdClaim == null) return Unauthorized();
 
@@ -30,6 +31,7 @@ namespace SecureTaskTeamApi.Controllers
 
             return await _context.Tasks
                 .Where(t => t.UserID == userId)
+                .OrderBy(t => t.deadLine)
                 .ToListAsync();
         }
 
