@@ -27,14 +27,14 @@ This project is under active development and is being continuously improved.
 - Ownership Logic: User-specific data isolation.
 
 - Smart Update: Partial data preservation on PUT.
-
-## Planned features
+  
 - Task deadlines: Due dates and notifications.
 
 - Categories: Task organization and labels.
 
 - RBAC: Advanced role permissions.
 
+## Planned features
 - Team System: Multi-user collaboration.
 
 ## Getting Started
